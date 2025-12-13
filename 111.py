@@ -1,11 +1,5 @@
-// --- ✨ 新增: 取得或建立 Session ID ---
-// 這會生成一個隨機 ID 並存在瀏覽器裡 (localStorage)
-function getSessionId() {
-  let sessionId = localStorage.getItem("chat_session_id");
-  if (!sessionId) {
-    // 如果沒有 ID，就生成一個新的 (例如: user_1701234567_abcde)
-    sessionId = "user_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem("chat_session_id", sessionId);
-  }
-  return sessionId;
-}
+- **語言偵測與翻譯**：
+             1. 偵測【用戶問題】使用的語言。
+             2. **回答必須完全使用該語言**。
+             3. 如果【專業資訊】是中文，但用戶問英文，你必須**先翻譯再回答**。
+             4. 如果用戶使用中文，則必須使用**繁體中文**。
