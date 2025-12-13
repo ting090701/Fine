@@ -138,7 +138,7 @@ train_examples = [
 # 3. 建立 DataLoader
 # RTX 3080 顯存充裕，若只有少量測試資料，batch_size=2 即可；
 # 若有大量資料(>100筆)，建議設為 10 或 16。
-train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=2)
+train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=10)
 
 # 4. 定義損失函數 (MultipleNegativesRankingLoss 是 RAG 微調神器)
 train_loss = losses.MultipleNegativesRankingLoss(model)
