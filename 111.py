@@ -1,29 +1,11 @@
-@app.post("/chat")
-async def chat_endpoint(req: UserRequest):
-    try:
-        user_id = req.session_id
-        
-        # 1. 如果這個人沒來過，幫他開一本新筆記
-        if user_id not in user_sessions:
-            user_sessions[user_id] = []
-            
-        # 2. 拿出他的專屬紀錄
-        chat_history = user_sessions[user_id]
-
-        # 3. 呼叫 RAG (把紀錄也傳進去！)
-        # 注意：這裡假設您的 RAG 鏈支援 chat_history 參數
-        result = qa_chain.invoke({
-            "question": req.message,
-            "chat_history": chat_history 
-        })
-        
-        answer = result['answer']
-
-        # 4. 把這次的問答寫回筆記本
-        user_sessions[user_id].append((req.message, answer))
-        
-        # (選用) 為了避免筆記本太厚，只留最後 10 句
-        if len(user_sessions[user_id]) > 10:
-             user_sessions[user_id] = user_sessions[user_id][-10:]
-
-        return {"reply": answer}
+// --- ✨ 新增: 取得或建立 Session ID ---
+// 這會生成一個隨機 ID 並存在瀏覽器裡 (localStorage)
+function getSessionId() {
+  let sessionId = localStorage.getItem("chat_session_id");
+  if (!sessionId) {
+    // 如果沒有 ID，就生成一個新的 (例如: user_1701234567_abcde)
+    sessionId = "user_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("chat_session_id", sessionId);
+  }
+  return sessionId;
+}
